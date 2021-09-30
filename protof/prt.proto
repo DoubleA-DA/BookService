@@ -1,0 +1,47 @@
+syntax="proto3";
+option go_package="proj/protof";
+package protof;
+
+service SRV
+{
+    rpc get_book(lim)returns(dispbook){}
+    rpc ins_book(book)returns(ack){}
+    rpc ins_review(review)returns(ack){}
+    rpc get_review(rv)returns(dispreview){}
+}
+message book
+{
+    string name=1;
+    repeated string author=2;
+    string short_desc=3;
+    int64 book_id=4;
+}
+message lim
+{
+    int64 l=1;
+}
+message dispbook{
+    repeated book book_list=1;
+    ack ak=2;
+}
+message review
+{
+    int64 book_id=1;
+    string name=2;
+    int64 score=3;
+    string text=4;
+}
+message rv
+{
+    int64 book_id=1;
+}
+message dispreview
+{
+    repeated review review_list=1;
+    ack ak=2;
+}
+message ack
+{
+    int64 status=1;
+    string msg=2;
+}
