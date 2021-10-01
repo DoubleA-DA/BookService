@@ -14,14 +14,14 @@ type servr struct{
 }
 
 func(s*servr)InsBook(ctx context.Context,req*pf.Book)(*pf.Ack,error){
-	if v:=db.Addbk(req.GetBookId(),req.GetName(),req.GetAuthor(),req.GetShortDesc());v!="ok"{
+	if v:=db.Addbook(req.GetBookId(),req.GetName(),req.GetAuthor(),req.GetShortDesc());v!="ok"{
 		return &pf.Ack{Status:http.StatusBadRequest,Msg:v},nil
 	}
 	return &pf.Ack{Status:http.StatusCreated,Msg:"Success"},nil
 }
 
 func(s*servr)InsReview(ctx context.Context,req*pf.Review)(*pf.Ack,error){
-	if v:=db.Addrv(req.GetBookId(),req.GetName(),req.GetScore(),req.GetText());v!="ok"{
+	if v:=db.Addreview(req.GetBookId(),req.GetName(),req.GetScore(),req.GetText());v!="ok"{
 		return &pf.Ack{Status:http.StatusBadRequest,Msg:v},nil
 	}
 	return &pf.Ack{Status:http.StatusCreated,Msg:"Success"},nil
@@ -29,7 +29,7 @@ func(s*servr)InsReview(ctx context.Context,req*pf.Review)(*pf.Ack,error){
 
 func(s*servr)GetBook(ctx context.Context,req*pf.Limit)(*pf.Dispbook,error){
 	var s1 []*pf.Book
-	if bk,err:=db.Retbk(req.GetL());err{
+	if bk,err:=db.Retbook(req.GetL());err{
 		for _,b:=range bk{
 			s1=append(s1,&pf.Book{Name:b.Name,Author:b.Author,ShortDesc:b.Shortdesc,BookId:b.Id})
 		}
@@ -39,7 +39,7 @@ func(s*servr)GetBook(ctx context.Context,req*pf.Limit)(*pf.Dispbook,error){
 
 func(s*servr)GetReview(ctx context.Context,req*pf.Review)(*pf.Dispreview,error){
 	var s1 []*pf.Review
-	if rv,err:=db.Retrv(req.GetBookId());err{
+	if rv,err:=db.Retreview(req.GetBookId());err{
 		for i:=0;i<len(rv);i++{
 			s1=append(s1,&pf.Review{Name:rv[i].Name,Score:rv[i].Score,Text:rv[i].Text})
 		}

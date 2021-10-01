@@ -86,7 +86,7 @@ func Initializer()(bool){
 	cbh.Scope=scope
 	return true
 }
-func Addbk(id int64,name string,author[]string,shortdesc string)(string){
+func Addbook(id int64,name string,author[]string,shortdesc string)(string){
 	var bk bookst
 	bk.Id=id
 	bk.Name=name
@@ -106,7 +106,7 @@ func Addbk(id int64,name string,author[]string,shortdesc string)(string){
 	}
 	return "ok"
 }
-func Addrv(ind int64,name string,score int64,text string)(string){
+func Addreview(ind int64,name string,score int64,text string)(string){
 	var rv review
 	rv.Name=name
 	rv.Score=score
@@ -136,7 +136,7 @@ func Addrv(ind int64,name string,score int64,text string)(string){
 	return "ok"
 	
 } 
-func Retbk(lim int64)([]bookst,bool){
+func Retbook(lim int64)([]bookst,bool){
 	var bk []bookst
 	query:="select bucket_id from system:indexes where name=$1";
 	rows,err:=cbh.Scope.Query(query,&gocb.QueryOptions{PositionalParameters:[]interface{}{primary_key}})
@@ -168,7 +168,7 @@ func Retbk(lim int64)([]bookst,bool){
 	if len(v.Name)==0{return bk,false}
 	return bk,true
 }
-func Retrv(id int64)([]review,bool){
+func Retreview(id int64)([]review,bool){
 	var rv []review
 	ops:=[]gocb.LookupInSpec{
 		gocb.GetSpec("review",nil),
