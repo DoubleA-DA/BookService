@@ -27,7 +27,7 @@ func(s*servr)InsReview(ctx context.Context,req*pf.Review)(*pf.Ack,error){
 	return &pf.Ack{Status:http.StatusCreated,Msg:"Success"},nil
 }
 
-func(s*servr)GetBook(ctx context.Context,req*pf.Lim)(*pf.Dispbook,error){
+func(s*servr)GetBook(ctx context.Context,req*pf.Limit)(*pf.Dispbook,error){
 	var s1 []*pf.Book
 	if bk,err:=db.Retbk(req.GetL());err{
 		for _,b:=range bk{
@@ -37,7 +37,7 @@ func(s*servr)GetBook(ctx context.Context,req*pf.Lim)(*pf.Dispbook,error){
 	return &pf.Dispbook{Ak:&pf.Ack{Status:http.StatusFound},BookList:s1},nil
 }
 
-func(s*servr)GetReview(ctx context.Context,req*pf.Rv)(*pf.Dispreview,error){
+func(s*servr)GetReview(ctx context.Context,req*pf.Review)(*pf.Dispreview,error){
 	var s1 []*pf.Review
 	if rv,err:=db.Retrv(req.GetBookId());err{
 		for i:=0;i<len(rv);i++{

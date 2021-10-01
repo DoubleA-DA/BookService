@@ -4,10 +4,10 @@ package protof;
 
 service SRV
 {
-    rpc get_book(lim)returns(dispbook){}
+    rpc get_book(limit)returns(dispbook){}
     rpc ins_book(book)returns(ack){}
     rpc ins_review(review)returns(ack){}
-    rpc get_review(rv)returns(dispreview){}
+    rpc get_review(review)returns(dispreview){}
 }
 message book
 {
@@ -16,7 +16,7 @@ message book
     string short_desc=3;
     int64 book_id=4;
 }
-message lim
+message limit
 {
     int64 l=1;
 }
@@ -30,10 +30,6 @@ message review
     string name=2;
     int64 score=3;
     string text=4;
-}
-message rv
-{
-    int64 book_id=1;
 }
 message dispreview
 {

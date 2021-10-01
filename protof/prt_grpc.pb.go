@@ -18,10 +18,10 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SRVClient interface {
-	GetBook(ctx context.Context, in *Lim, opts ...grpc.CallOption) (*Dispbook, error)
+	GetBook(ctx context.Context, in *Limit, opts ...grpc.CallOption) (*Dispbook, error)
 	InsBook(ctx context.Context, in *Book, opts ...grpc.CallOption) (*Ack, error)
 	InsReview(ctx context.Context, in *Review, opts ...grpc.CallOption) (*Ack, error)
-	GetReview(ctx context.Context, in *Rv, opts ...grpc.CallOption) (*Dispreview, error)
+	GetReview(ctx context.Context, in *Review, opts ...grpc.CallOption) (*Dispreview, error)
 }
 
 type sRVClient struct {
@@ -32,7 +32,7 @@ func NewSRVClient(cc grpc.ClientConnInterface) SRVClient {
 	return &sRVClient{cc}
 }
 
-func (c *sRVClient) GetBook(ctx context.Context, in *Lim, opts ...grpc.CallOption) (*Dispbook, error) {
+func (c *sRVClient) GetBook(ctx context.Context, in *Limit, opts ...grpc.CallOption) (*Dispbook, error) {
 	out := new(Dispbook)
 	err := c.cc.Invoke(ctx, "/protof.SRV/get_book", in, out, opts...)
 	if err != nil {
@@ -59,7 +59,7 @@ func (c *sRVClient) InsReview(ctx context.Context, in *Review, opts ...grpc.Call
 	return out, nil
 }
 
-func (c *sRVClient) GetReview(ctx context.Context, in *Rv, opts ...grpc.CallOption) (*Dispreview, error) {
+func (c *sRVClient) GetReview(ctx context.Context, in *Review, opts ...grpc.CallOption) (*Dispreview, error) {
 	out := new(Dispreview)
 	err := c.cc.Invoke(ctx, "/protof.SRV/get_review", in, out, opts...)
 	if err != nil {
@@ -72,10 +72,10 @@ func (c *sRVClient) GetReview(ctx context.Context, in *Rv, opts ...grpc.CallOpti
 // All implementations must embed UnimplementedSRVServer
 // for forward compatibility
 type SRVServer interface {
-	GetBook(context.Context, *Lim) (*Dispbook, error)
+	GetBook(context.Context, *Limit) (*Dispbook, error)
 	InsBook(context.Context, *Book) (*Ack, error)
 	InsReview(context.Context, *Review) (*Ack, error)
-	GetReview(context.Context, *Rv) (*Dispreview, error)
+	GetReview(context.Context, *Review) (*Dispreview, error)
 	mustEmbedUnimplementedSRVServer()
 }
 
@@ -83,7 +83,7 @@ type SRVServer interface {
 type UnimplementedSRVServer struct {
 }
 
-func (UnimplementedSRVServer) GetBook(context.Context, *Lim) (*Dispbook, error) {
+func (UnimplementedSRVServer) GetBook(context.Context, *Limit) (*Dispbook, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetBook not implemented")
 }
 func (UnimplementedSRVServer) InsBook(context.Context, *Book) (*Ack, error) {
@@ -92,7 +92,7 @@ func (UnimplementedSRVServer) InsBook(context.Context, *Book) (*Ack, error) {
 func (UnimplementedSRVServer) InsReview(context.Context, *Review) (*Ack, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method InsReview not implemented")
 }
-func (UnimplementedSRVServer) GetReview(context.Context, *Rv) (*Dispreview, error) {
+func (UnimplementedSRVServer) GetReview(context.Context, *Review) (*Dispreview, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetReview not implemented")
 }
 func (UnimplementedSRVServer) mustEmbedUnimplementedSRVServer() {}
@@ -109,7 +109,7 @@ func RegisterSRVServer(s grpc.ServiceRegistrar, srv SRVServer) {
 }
 
 func _SRV_GetBook_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Lim)
+	in := new(Limit)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -121,7 +121,7 @@ func _SRV_GetBook_Handler(srv interface{}, ctx context.Context, dec func(interfa
 		FullMethod: "/protof.SRV/get_book",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SRVServer).GetBook(ctx, req.(*Lim))
+		return srv.(SRVServer).GetBook(ctx, req.(*Limit))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -163,7 +163,7 @@ func _SRV_InsReview_Handler(srv interface{}, ctx context.Context, dec func(inter
 }
 
 func _SRV_GetReview_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Rv)
+	in := new(Review)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -175,7 +175,7 @@ func _SRV_GetReview_Handler(srv interface{}, ctx context.Context, dec func(inter
 		FullMethod: "/protof.SRV/get_review",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SRVServer).GetReview(ctx, req.(*Rv))
+		return srv.(SRVServer).GetReview(ctx, req.(*Review))
 	}
 	return interceptor(ctx, in, info, handler)
 }
