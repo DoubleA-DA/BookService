@@ -1,4 +1,4 @@
-module proj
+module BookService
 
 go 1.17
 

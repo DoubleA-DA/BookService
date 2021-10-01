@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 	"net"
-	"proj/db"
-	pf "proj/protof"
+	"BookService/db"
+	pf "BookService/protof"
 	"google.golang.org/grpc"
 	"net/http"
 )

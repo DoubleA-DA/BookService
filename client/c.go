@@ -5,7 +5,7 @@ import (
 	"fmt"
 	//"io/ioutil"
 	"net/http"
-	pf "proj/protof"
+	pf "BookService/protof"
 	"strconv"
 
 	"github.com/gorilla/mux"
