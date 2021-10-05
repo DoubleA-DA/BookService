@@ -2,7 +2,7 @@ package db
 
 import (
 	"fmt"
-	"sync"
+	//"sync"
 	"time"
 	"github.com/couchbase/gocb/v2"
 	"github.com/go-playground/validator/v10"
@@ -12,7 +12,7 @@ import (
 type CB struct{
 	Collection *gocb.Collection
 	Scope *gocb.Scope
-	lock sync.Mutex
+	//lock sync.Mutex
 }
 type bookst struct{
 	Id int64`json:"id" validate:"required"`
@@ -98,9 +98,9 @@ func Addbook(id int64,name string,author[]string,shortdesc string)(string){
 		v:=err.(validator.ValidationErrors)
 		return fmt.Sprintf("%s",v)
 	}
-	cbh.lock.Lock()
+	//cbh.lock.Lock()
 	_,err:=cbh.Collection.Insert(fmt.Sprintf("%d",bk.Id),&bk,&gocb.InsertOptions{})
-	cbh.lock.Unlock()
+	//cbh.lock.Unlock()
 	if err!=nil{
 		return "Can't insert bookinfo, check index"
 	}
