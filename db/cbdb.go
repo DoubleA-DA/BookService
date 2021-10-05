@@ -3,7 +3,7 @@ package db
 import (
 	"fmt"
 	//"sync"
-	"time"
+	//"time"
 	"github.com/couchbase/gocb/v2"
 	"github.com/go-playground/validator/v10"
 )
@@ -120,15 +120,14 @@ func Addreview(ind int64,name string,score int64,text string)(string){
 		gocb.ArrayAppendSpec("review",rv,nil),
 	}
 	//cbh.lock.Lock()
-	lck,err:= cbh.Collection.GetAndLock(fmt.Sprintf("%d",ind), 2*time.Second,nil)
+	/*lck,err:= cbh.Collection.Get(fmt.Sprintf("%d",ind), nil)
 	if err!=nil{
-		panic("can't lock")
-	}
-	lck1:= lck.Cas()
-	_,err=cbh.Collection.MutateIn(fmt.Sprintf("%d",ind),mut,&gocb.MutateInOptions{
-		Cas:lck1,
+		panic("can't fetch")
+	}*/
+	//lck1:= lck.Cas()
+	_,err:=cbh.Collection.MutateIn(fmt.Sprintf("%d",ind),mut,&gocb.MutateInOptions{
 	})
-	cbh.Collection.Unlock(fmt.Sprintf("%d",ind), lck1, nil)
+	//cbh.Collection.Unlock(fmt.Sprintf("%d",ind), lck1, nil)
 	//cbh.lock.Unlock()
 	if err!=nil{
 		return "check index"
