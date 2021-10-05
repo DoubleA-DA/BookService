@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-
+	"github.com/go-playground/validator/v10"
 	//"io/ioutil"
 	pf "BookService/protof"
 	"net/http"
@@ -13,17 +13,18 @@ import (
 	"google.golang.org/grpc"
 )
 
-type bookst struct {
-	Id        int64    `json:"id"`
-	Name      string   `json:"name"`
-	Author    []string `json:"author"`
-	Shortdesc string   `json:"shortdesc"`
+type bookst struct{
+	Id int64`json:"id" validate:"required"`
+  	Name string`json:"name" validate:"required"`
+  	Author []string`json:"author" validate:"required"`
+  	Shortdesc string`json:"shortdesc"`
+	Review []int`json:"review"`
 }
-type review struct {
-	Name  string `json:"name"`
-	Score int64  `json:"score"`
-	Text  string `json:"text"`
-	Id    int64  `json:"id"`
+type review struct{
+	Name string`json:"name" validate:"required"`
+	Score int64`json:"score" validate:"required,gte=1,lte=5"`
+	Text string`json:"text"`
+	Id int64`json:"id"`
 }
 
 var (
@@ -50,9 +51,15 @@ func insbook(w http.ResponseWriter, r *http.Request) {
 	var bk bookst
 	json.NewDecoder(r.Body).Decode(&bk)
 	fmt.Println(bk)
-	snd := &pf.Book{BookId: bk.Id, Name: bk.Name, Author: bk.Author, ShortDesc: bk.Shortdesc}
-	if rcv, err1 := cli.InsBook(r.Context(), snd); err1 == nil {
-		json.NewEncoder(w).Encode(rcv)
+	validate:=validator.New()
+	if err:=validate.Struct(bk);err!=nil{
+		v:=err.(validator.ValidationErrors)
+		json.NewEncoder(w).Encode(fmt.Sprintf("%s",v))
+	}else{
+		snd := &pf.Book{BookId: bk.Id, Name: bk.Name, Author: bk.Author, ShortDesc: bk.Shortdesc}
+		if rcv, err1 := cli.InsBook(r.Context(), snd); err1 == nil {
+			json.NewEncoder(w).Encode(rcv)
+		}
 	}
 }
 func insreview(w http.ResponseWriter, r *http.Request) {
@@ -60,9 +67,15 @@ func insreview(w http.ResponseWriter, r *http.Request) {
 	var rv review
 	json.NewDecoder(r.Body).Decode(&rv)
 	fmt.Println(rv)
-	snd := &pf.Review{BookId: rv.Id, Name: rv.Name, Score: rv.Score, Text: rv.Text}
-	if rcv, err := cli.InsReview(r.Context(), snd); err == nil {
-		json.NewEncoder(w).Encode(rcv)
+	validate:=validator.New()
+	if err:=validate.Struct(rv);err!=nil{
+		v:=err.(validator.ValidationErrors)
+		json.NewEncoder(w).Encode(fmt.Sprintf("%s",v))
+	}else{
+		snd := &pf.Review{BookId: rv.Id, Name: rv.Name, Score: rv.Score, Text: rv.Text}
+		if rcv, err := cli.InsReview(r.Context(), snd); err == nil {
+			json.NewEncoder(w).Encode(rcv)
+		}
 	}
 }
 func getreview(w http.ResponseWriter, r *http.Request) {

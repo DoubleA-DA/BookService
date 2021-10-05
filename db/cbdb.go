@@ -5,7 +5,7 @@ import (
 	//"sync"
 	//"time"
 	"github.com/couchbase/gocb/v2"
-	"github.com/go-playground/validator/v10"
+	//"github.com/go-playground/validator/v10"
 )
 
 
@@ -93,11 +93,11 @@ func Addbook(id int64,name string,author[]string,shortdesc string)(string){
 	bk.Author=author
 	bk.Shortdesc=shortdesc
 	bk.Review=[]int{}
-	validate:=validator.New()
+	/*validate:=validator.New()
 	if err:=validate.Struct(bk);err!=nil{
 		v:=err.(validator.ValidationErrors)
 		return fmt.Sprintf("%s",v)
-	}
+	}*/
 	//cbh.lock.Lock()
 	_,err:=cbh.Collection.Insert(fmt.Sprintf("%d",bk.Id),&bk,&gocb.InsertOptions{})
 	//cbh.lock.Unlock()
@@ -111,11 +111,11 @@ func Addreview(ind int64,name string,score int64,text string)(string){
 	rv.Name=name
 	rv.Score=score
 	rv.Text=text
-	validate:=validator.New()
+	/*validate:=validator.New()
 	if err:=validate.Struct(rv);err!=nil{
 		v:=err.(validator.ValidationErrors)
 		return fmt.Sprintf("%s",v)
-	}
+	}*/
 	mut:=[]gocb.MutateInSpec{
 		gocb.ArrayAppendSpec("review",rv,nil),
 	}
