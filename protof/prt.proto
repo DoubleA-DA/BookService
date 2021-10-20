@@ -14,7 +14,7 @@ message book
     string name=1;
     repeated string author=2;
     string short_desc=3;
-    int64 book_id=4;
+    string book_id=4;
 }
 message limit
 {
@@ -26,7 +26,7 @@ message dispbook{
 }
 message review
 {
-    int64 book_id=1;
+    string book_id=1;
     string name=2;
     int64 score=3;
     string text=4;

@@ -31,7 +31,7 @@ func(s*servr)GetBook(ctx context.Context,req*pf.Limit)(*pf.Dispbook,error){
 	var s1 []*pf.Book
 	if bk,err:=db.Retbook(req.GetL());err{
 		for _,b:=range bk{
-			s1=append(s1,&pf.Book{Name:b.Name,Author:b.Author,ShortDesc:b.Shortdesc,BookId:b.Id})
+			s1=append(s1,&pf.Book{Name:b.Name,Author:b.Author,ShortDesc:b.Shortdesc})
 		}
 	}else{return &pf.Dispbook{Ak:&pf.Ack{Status:http.StatusNotFound,Msg:"No Books entered"}},nil}
 	return &pf.Dispbook{Ak:&pf.Ack{Status:http.StatusFound},BookList:s1},nil

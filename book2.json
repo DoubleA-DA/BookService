@@ -1,0 +1,8 @@
+{
+"name": "Python",
+"author": [
+  "Alan",
+  "Brian"
+],
+"shortdesc": "This book is meant to help you start using Go effectively right away and to use it well, takingfull advantage of Go’s language features and standard libraries to write clear, idiomatic, andefficient programs"
+}
