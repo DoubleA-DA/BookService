@@ -6,8 +6,10 @@ for running the application start the server and the client
 
 ```go run client/c.go```
 
+for the limit of books per doc, enter the limit in the grpc server when prompted
+
 for sending requests use ```http://localhost:50002/api/v1/```
 
-sample datas given ```data.json review1.json review2.json```
+sample datas given 
 
 example ```curl -X POST --data @data.json http://localhost:50002/api/v1/book```
