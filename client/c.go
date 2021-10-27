@@ -14,7 +14,6 @@ import (
 )
 
 type bookst struct{
-	//Id int64`json:"id" validate:"required"`
   	Name string`json:"name" validate:"required"`
   	Author []string`json:"author" validate:"required"`
   	Shortdesc string`json:"shortdesc"`
@@ -107,7 +106,6 @@ func Check_con(){
 		if con.Clicon.GetState().String()=="TRANSIENT_FAILURE"{
 			con.Chk=false
 		}else{con.Chk=true}
-		//time.Sleep(60*time.Second)
 	}
 }
 /*

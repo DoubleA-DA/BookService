@@ -215,7 +215,7 @@ func Addbook(id string,name string,author[]string,shortdesc string)(string){
 			if err != nil {
 				panic(err)
 			}
-		}else{
+			}else{
 			ops1:= []gocb.MutateInSpec{//increasing last
 				gocb.IncrementSpec("last", 1, &gocb.CounterSpecOptions{}),
 			}
@@ -263,13 +263,7 @@ func Addbook(id string,name string,author[]string,shortdesc string)(string){
 			panic(err)
 		}
 	}
-	
-	
 
-
-	
-	//_,err=cbh.Collection_book.Insert(bk.Id,&bk,&gocb.InsertOptions{})
-	//cbh.lock.Unlock()
 	if err!=nil{
 		return "Can't insert bookinfo, check index"
 	}
@@ -280,25 +274,15 @@ func Addreview(ind string,name string,score int64,text string)(string){
 	rv.Name=name
 	rv.Score=score
 	rv.Text=text
-	/*validate:=validator.New()
-	if err:=validate.Struct(rv);err!=nil{
-		v:=err.(validator.ValidationErrors)
-		return fmt.Sprintf("%s",v)
-	}*/
+
 	mut:=[]gocb.MutateInSpec{
 		gocb.ArrayAppendSpec("review",rv,nil),
 	}
 	
-	//cbh.lock.Lock()
-	/*lck,err:= cbh.Collection.Get(fmt.Sprintf("%d",ind), nil)
-	if err!=nil{
-		panic("can't fetch")
-	}*/
-	//lck1:= lck.Cas()
+
 	_,err:=cbh.Collection_review.MutateIn(ind,mut,&gocb.MutateInOptions{
 	})
-	//cbh.Collection.Unlock(fmt.Sprintf("%d",ind), lck1, nil)
-	//cbh.lock.Unlock()
+
 	if err!=nil{
 		return "check index"
 	}
