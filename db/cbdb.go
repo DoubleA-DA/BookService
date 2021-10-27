@@ -42,6 +42,7 @@ var(
 	max_store int64
 	cbh CB
 )
+
 func connectDB()(*gocb.Cluster){
 	cluster,err:=gocb.Connect(
 		"localhost",
