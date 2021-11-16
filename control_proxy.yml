@@ -1,8 +1,0 @@
-cloud_address: controller.magma-telaverge.com
-cloud_port: 443
-bootstrap_address: bootstrapper-controller.magma-telaverge.com
-bootstrap_port: 443
-fluentd_address: fluentd.magma-telaverge.com
-fluentd_port: 24224
-
-rootca_cert: /var/opt/magma/tmp/certs/rootCA.pem
